@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NearestPlace</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div class="jumbotron">
+    <form id="input_form" method="POST">
+        {% csrf_token %}
+        <h2>Enter your city <input type="text" name="input_city" id="input_city" autocomplete="on"></h2>
+        <h2>Enter the place type (e.g. restaurant)<input type="text" name="input_placetype"></h2>
+        <button type="submit">Submit</button>
+        <h4>Temporarly fixed locations are being used to decide nearest location</h4>
+    </form>
+    <h3>{{ result_place }}</h3>
+</div>
+</body>
+<script>
+    var onLoaded = function() {
+        var location_input = document.getElementById('input_city');
+        var autocomplete = new google.maps.places.Autocomplete(location_input);
+    };
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async defer></script>
+</html>
