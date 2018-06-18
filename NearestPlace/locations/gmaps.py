@@ -21,7 +21,6 @@ class LocationFinder:
         factors.sort(key=lambda tup: tup[0])
 
         return factors[0][1]['name']
-        #print(factors[0][1]['name'])
 
     def get_location(self,address):
         """Returns location dict with lat and lng
@@ -32,15 +31,17 @@ class LocationFinder:
         return place[0]['geometry']['location']
 
     def get_places(self,place_type, area):
-        # Return a list of coworking spaces near 'area'
+        # Return a list of spots near 'area'
         return self.api.places(query=place_type, location=area)
 
     def get_total_distance(self,distances):
         """:param distances: dict returned from 'distance_matrix' method,
-        with origin distances to destination."""
+        with origin distances to destination.
+        :returns: Total distance to be covered to reach destination.
+        """
 
         total_distance = 0
-        # Iterate over each distance to the destination
+        # Iterate over each distance to destination
         for distance in distances['rows']:
             total_distance += int(distance['elements'][0]['distance']['value']) / 1000
 
