@@ -19,9 +19,25 @@
         <button type="submit">Submit</button>
         <h4>Temporarly fixed locations are being used to decide nearest location</h4>
     </form>
-    <h3>{{ result_place }}</h3>
+     <div id="loader" class="loader" hidden></div>
+    <h3 id="result_place"></h3>
 </div>
 </body>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 90px;
+        height: 90px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 <script>
     // Enable google autocomplete with location selection
     var onLoaded = function() {
@@ -29,10 +45,44 @@
         var autocomplete = new google.maps.places.Autocomplete(location_input);
     };
 
-    // Prevent form submission when enter is pressed with input tag
+    // Prevent form submission when enter is pressed with location selection
     $('#input_city').keydown(function (e) {
-      if (e.which == 13 && $('.pac-container:visible').length)
+      if (e.which === 13 && $('.pac-container:visible').length)
           return false;
+    });
+
+    // Get user current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos);
+      });
+    } else {
+        console.log('Location access denied!');
+    }
+    
+    $('#input_form').on('submit', function (event) {
+        event.preventDefault();
+        $('#loader').show();
+
+        $.ajax({
+            url:'/get_location/',
+            type:'POST',
+            data:$('#input_form').serialize(),
+            
+            success: function (json) {
+                $('#loader').hide();
+                $('#result_place').text(json['place']);
+            },
+            error: function () {
+                console.log('Request Failed!');
+                $('#loader').hide();
+                window.alert('Please Enter Valid Info!');
+            }
+        })
     });
 </script>
 </html>

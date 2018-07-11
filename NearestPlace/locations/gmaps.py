@@ -39,7 +39,6 @@ class LocationFinder:
         with origin distances to destination.
         :returns: Total distance to be covered to reach destination.
         """
-
         total_distance = 0
         # Iterate over each distance to destination
         for distance in distances['rows']:
@@ -51,7 +50,6 @@ class LocationFinder:
         """Returns a list of total average distance for each given place.
         :param result_places: dict with list of places found in search
         """
-
         # Calculate distance factor for each potential place
         destinations_factors = []
         for place in result_places['results']:
