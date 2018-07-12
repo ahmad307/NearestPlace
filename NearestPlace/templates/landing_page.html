@@ -14,13 +14,26 @@
 <div class="jumbotron">
     <form id="input_form" method="POST">
         {% csrf_token %}
-        <h2>Enter your city <input type="text" name="input_city" id="input_city" autocomplete="on"></h2>
-        <h2>Enter the place type (e.g. restaurant)<input type="text" name="input_placetype"></h2>
-        <button type="submit">Submit</button>
-        <h4>Temporarly fixed locations are being used to decide nearest location</h4>
+        <div id="input">
+            <label for="input_city">Enter your city</label>
+            <input type="text" name="input_city" id="input_city" autocomplete="on">
+            <label for="input_placetype">Enter the place type (e.g. restaurant)</label>
+            <input type="text" id="input_placetype" name="input_placetype">
+            <button type="submit">Submit</button>
+        </div>
+        <h4>*Temporarly fixed locations are being used to decide nearest location</h4>
     </form>
-     <div id="loader" class="loader" hidden></div>
-    <h3 id="result_place"></h3>
+    <div id="result">
+        <div id="loader" class="loader" hidden></div>
+        <h3 id="result_place"></h3>
+    </div>
+</div>
+<div class="jumbotron">
+    <h3>Figure out the nearest place to meet with your friends</h3>
+    <label for="meeting_name">Meeting Name</label>
+    <input id="meeting_name">
+    <button id="new_meeting_btn">Create New Meeting</button>
+    <h4 id="meeting_code"></h4>
 </div>
 </body>
 <style>
@@ -46,9 +59,11 @@
     };
 
     // Prevent form submission when enter is pressed with location selection
-    $('#input_city').keydown(function (e) {
-      if (e.which === 13 && $('.pac-container:visible').length)
-          return false;
+    $('#input_city').keydown(function (event) {
+        if (event){
+            if (event.which === 13 && $('.pac-container:visible').length)
+                return false;
+        }
     });
 
     // Get user current location
@@ -63,16 +78,17 @@
     } else {
         console.log('Location access denied!');
     }
-    
+
+    // Send city and place info and receive the 'Nearest Place'
     $('#input_form').on('submit', function (event) {
         event.preventDefault();
-        $('#loader').show();
+        $('#loader').show();    // Loading sign
 
         $.ajax({
             url:'/get_location/',
             type:'POST',
             data:$('#input_form').serialize(),
-            
+
             success: function (json) {
                 $('#loader').hide();
                 $('#result_place').text(json['place']);
@@ -82,7 +98,32 @@
                 $('#loader').hide();
                 window.alert('Please Enter Valid Info!');
             }
-        })
+        });
+    });
+
+    $('#new_meeting_btn').on('click', function () {
+        if ($('#meeting_name').length === 0){
+            window.alert('Enter a name for your meeting!');
+        }
+        else{
+            $.ajax({
+                url:'/create_session/',
+                type:'POST',
+                data:{
+                    'csrfmiddlewaretoken':jQuery("[name=csrfmiddlewaretoken]").val(),
+                    'meeting_name':$('#meeting_name').val(),
+                    'city':$('#input_city'),
+                    'place_type':$('#input_placetype')
+                },
+
+                success: function (json) {
+                    $('#meeting_code').text(json['code']);
+                },
+                error: function () {
+                    console.log('Session Creation Failed');
+                }
+            });
+        }
     });
 </script>
 </html>
