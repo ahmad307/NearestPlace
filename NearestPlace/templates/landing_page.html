@@ -101,7 +101,8 @@
         });
     });
 
-    $('#new_meeting_btn').on('click', function () {
+    // Post session info to saved in DB
+    $('#new_meeting_btn').on('click', function (e) {
         if ($('#meeting_name').length === 0){
             window.alert('Enter a name for your meeting!');
         }
@@ -110,10 +111,10 @@
                 url:'/create_session/',
                 type:'POST',
                 data:{
-                    'csrfmiddlewaretoken':jQuery("[name=csrfmiddlewaretoken]").val(),
+                    'csrfmiddlewaretoken':'{{ csrf_token }}',
                     'meeting_name':$('#meeting_name').val(),
-                    'city':$('#input_city'),
-                    'place_type':$('#input_placetype')
+                    'city':$('#input_city').val(),
+                    'place_type':$('#input_placetype').val()
                 },
 
                 success: function (json) {
