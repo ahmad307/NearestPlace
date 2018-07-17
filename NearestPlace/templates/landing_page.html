@@ -33,6 +33,7 @@
     <label for="meeting_name">Meeting Name</label>
     <input id="meeting_name">
     <button id="new_meeting_btn">Create New Meeting</button>
+    <h4 id="meeting_message"></h4>
     <h4 id="meeting_code"></h4>
 </div>
 </body>
@@ -118,7 +119,13 @@
                 },
 
                 success: function (json) {
-                    $('#meeting_code').text(json['code']);
+                    // Prompt the user if the session wasn't created in the DB
+                    if (json['message'] === 'ValidationError'){
+                        window.alert('Please try again!');
+                    } else {
+                        $('#meeting_message').text('Private code for your meeting');
+                        $('#meeting_code').text(json['code']);
+                    }
                 },
                 error: function () {
                     console.log('Session Creation Failed');

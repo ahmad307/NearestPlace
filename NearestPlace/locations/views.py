@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from locations.gmaps import LocationFinder
 from locations.models import Session
+from django.core.exceptions import ValidationError
 import json
 import secrets
 import string
@@ -23,13 +24,20 @@ def get_location(request):
 def create_session(request):
     """Creates a session for saving locations in the database."""
     if request.method == 'POST':
+        # Create pseudo-unique random string of numbers and capital letters
         code = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-        print(code)
+
         session = Session(
             name = request.POST.get('meeting_name'),
-            code = 'GFG9HE',
+            code = code,
             place_type = request.POST.get('place_type'),
             city = request.POST.get('city')
         )
-        session.save()
-        return HttpResponse(json.dumps({'code':code}), content_type='application/json')
+        try:
+            session.full_clean()
+            session.save()
+        except ValidationError:
+            print('ValidaionError!')
+            return HttpResponse(json.dumps({'message':'ValidationError'}),content_type='application/json')
+
+        return HttpResponse(json.dumps({'message':'success','code':code}), content_type='application/json')
