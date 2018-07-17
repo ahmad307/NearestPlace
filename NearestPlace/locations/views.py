@@ -10,6 +10,9 @@ def index(request):
     api_key = open('D:/Projects/secretkey/gmaps_key.txt','r').read()
     return render(request,'landing_page.html',{'api_key':api_key})
 
+def meeting(request):
+    return render(request,'meeting.html')
+
 def get_location(request):
     """Receives POST request and returns the 'Nearest Place'."""
     if request.method == 'POST':
@@ -38,6 +41,6 @@ def create_session(request):
             session.save()
         except ValidationError:
             print('ValidaionError!')
-            return HttpResponse(json.dumps({'message':'ValidationError'}),content_type='application/json')
+            return HttpResponse(json.dumps({'message':'ValidationError'}), content_type='application/json')
 
         return HttpResponse(json.dumps({'message':'success','code':code}), content_type='application/json')

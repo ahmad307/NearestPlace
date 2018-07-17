@@ -11,56 +11,42 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async defer></script>
 </head>
 <body>
+<nav class="navbar navbar-default navbar-static-top">
+    <div>
+        <ul class="nav navbar-nav">
+            <li class="navbar-brand"><i>Nearest Place</i></li>
+            <li><a class="navbar-link" href="{% url 'home' %}">Home</a></li>
+            <li><a class="navbar-link" href="{% url 'locations:meeting' %}">Meetings</a></li>
+            <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="jumbotron">
-    <form id="input_form" method="POST">
-        {% csrf_token %}
-        <div id="input">
-            <label for="input_city">Enter your city</label>
-            <input type="text" name="input_city" id="input_city" autocomplete="on">
-            <label for="input_placetype">Enter the place type (e.g. restaurant)</label>
-            <input type="text" id="input_placetype" name="input_placetype">
-            <button type="submit">Submit</button>
-        </div>
-        <h4>*Temporarly fixed locations are being used to decide nearest location</h4>
-    </form>
+    <div id="meeting_data">
+        <label for="city">Enter your city</label>
+        <input type="text" name="city" id="city" autocomplete="on">
+        <label for="place_type">Enter the place type (e.g. restaurant)</label>
+        <input type="text" id="place_type" name="place_type">
+        <h3>Figure out the nearest place to meet with your friends</h3>
+        <label for="meeting_name">Meeting Name</label>
+        <input id="meeting_name">
+        <button id="new_meeting_btn">Create New Meeting</button>
+    </div>
     <div id="result">
-        <div id="loader" class="loader" hidden></div>
-        <h3 id="result_place"></h3>
+        <h4 id="meeting_message"></h4>
+        <h4 id="meeting_code"></h4>
     </div>
 </div>
-<div class="jumbotron">
-    <h3>Figure out the nearest place to meet with your friends</h3>
-    <label for="meeting_name">Meeting Name</label>
-    <input id="meeting_name">
-    <button id="new_meeting_btn">Create New Meeting</button>
-    <h4 id="meeting_message"></h4>
-    <h4 id="meeting_code"></h4>
-</div>
 </body>
-<style>
-    .loader {
-        border: 16px solid #f3f3f3; /* Light grey */
-        border-top: 16px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 90px;
-        height: 90px;
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-</style>
 <script>
     // Enable google autocomplete with location selection
     var onLoaded = function() {
-        var location_input = document.getElementById('input_city');
+        var location_input = document.getElementById('city');
         var autocomplete = new google.maps.places.Autocomplete(location_input);
     };
 
     // Prevent form submission when enter is pressed with location selection
-    $('#input_city').keydown(function (event) {
+    $('#city').keydown(function (event) {
         if (event){
             if (event.which === 13 && $('.pac-container:visible').length)
                 return false;
@@ -104,8 +90,8 @@
 
     // Post session info to saved in DB
     $('#new_meeting_btn').on('click', function (e) {
-        if ($('#meeting_name').length === 0){
-            window.alert('Enter a name for your meeting!');
+        if ($('#meeting_name').length == 0 || $('#city').length == 0 || $('#place_type') == 0){
+            window.alert('Enter valid info for your meeting!');
         }
         else{
             $.ajax({
@@ -114,8 +100,8 @@
                 data:{
                     'csrfmiddlewaretoken':'{{ csrf_token }}',
                     'meeting_name':$('#meeting_name').val(),
-                    'city':$('#input_city').val(),
-                    'place_type':$('#input_placetype').val()
+                    'city':$('#city').val(),
+                    'place_type':$('#place_type').val()
                 },
 
                 success: function (json) {
@@ -134,4 +120,19 @@
         }
     });
 </script>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 90px;
+        height: 90px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 </html>

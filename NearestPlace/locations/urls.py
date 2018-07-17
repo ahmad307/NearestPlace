@@ -1,6 +1,8 @@
 from django.conf.urls import url
 from locations import views
 
+app_name = 'locations'
+
 urlpatterns = [
-    url(r'^$',views.index),
+    url(r'^meeting', views.meeting, name='meeting'),
 ]
