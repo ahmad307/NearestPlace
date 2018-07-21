@@ -20,9 +20,72 @@
     </div>
 </nav>
 <div class="jumbotron">
-    <h3>Please Enter Your Meeting Code</h3>
-    <input type="text" id="code">
-    <button id="go_btn">Go</button>
+    <div class="container">
+        <div class="row">
+            <h3>Please Enter Your Meeting Code</h3>
+            <input type="text" id="code">
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <button id="add_location_btn">Add My Location</button>
+            <button id="place_btn">Get Nearest Place!</button>
+        </div>
+    </div>
 </div>
 </body>
+<script>
+    // Get user's location (longitude and magnitude) and post it to server
+    $('#add_location_btn').on('click', function () {
+        if ($('#code').val().length === 0) {
+            window.alert('Enter a valid code!');
+        } else {
+            getLocation().then(function (data) {
+                postLocation(data);
+            });
+        }
+    });
+
+    // Get user's location synchronously
+    function getLocation() {
+        return new Promise(function (resolve, reject) {
+            var pos;
+            // Get user's current location
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+                if (pos) resolve(pos);
+              });
+            } else {
+                console.log('Location access denied!');
+            }
+        });
+    }
+
+    // Posts user's location co-ordinates to the server
+    function postLocation(data) {
+        var pos = data;
+        $.ajax({
+            url:'/add_location/',
+            type:'POST',
+            data:{
+                'csrfmiddlewaretoken':'{{ csrf_token }}',
+                'code':$('#code').val(),
+                'lng':pos.lng,
+                'lat':pos.lat
+            },
+
+            success: function (json) {
+                window.alert('Location Saved!');
+            },
+            error: function (e) {
+                console.log('Sending Location Failed!');
+            }
+        })
+    }
+</script>
 </html>
