@@ -17,11 +17,9 @@ def meeting(request):
 def get_location(request):
     """Receives POST request and returns the 'Nearest Place'."""
     if request.method == 'POST':
-        city = request.POST.get('input_city')
-        place_type = request.POST.get('input_placetype')
-
-        location_finder = LocationFinder()
-        result_place = location_finder.get_nearest_place(city, place_type)
+        code = request.POST.get('code')
+        location_finder = LocationFinder(code)
+        result_place = location_finder.get_nearest_place()
 
         return HttpResponse(json.dumps({'place':result_place}), content_type='application/json')
 
@@ -68,7 +66,6 @@ def add_location(request):
         try:
             location.full_clean()
             location.save()
-            print('location saved!')
             result = {'message':'Success'}
         except ValidationError as e:
             print(e)

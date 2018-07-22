@@ -27,27 +27,50 @@
         </div>
     </div>
     <br>
-    <div id="loader" class="loader" hidden></div>
     <div class="container">
         <div class="row">
             <button id="add_location_btn">Add My Location</button>
             <button id="place_btn">Get Nearest Place!</button>
         </div>
+        <div id="loader" class="loader" hidden></div>
+        <h3 id="result_place"></h3>
     </div>
 </div>
 </body>
 <script>
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
-        $('#loader').show();    // Show loading sign
+        $('#loader').toggle();    // Show loading sign
         if ($('#code').val().length === 0) {
             window.alert('Enter a valid code!');
         } else {
             getLocation().then(function (data) {
                 postLocation(data);
-                $('#loader').hide();
+                $('#loader').toggle();  // Hide loading sign
             });
         }
+    });
+
+    // Get the 'Nearest Place' for the meeting with given code
+    $('#place_btn').on('click', function () {
+        $('#loader').toggle();    // Not having an effect for some reason
+        if ($('#code').val().length === 0) {
+            window.alert('Enter valide code for your meeting!');
+        } else {
+            $.ajax({
+                url:'/get_location/',
+                type:'POST',
+                data:{'csrfmiddlewaretoken':'{{ csrf_token }}', 'code':$('#code').val()},
+
+                success: function (json) {
+                    $('#result_place').text(json['place']);
+                },
+                error: function () {
+                    console.log('Failed to get nearest place!');
+                }
+            })
+        }
+        $('#loader').toggle();
     });
 
     // Get user's location synchronously.
