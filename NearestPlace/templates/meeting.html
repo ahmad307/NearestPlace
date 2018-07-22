@@ -27,6 +27,7 @@
         </div>
     </div>
     <br>
+    <div id="loader" class="loader" hidden></div>
     <div class="container">
         <div class="row">
             <button id="add_location_btn">Add My Location</button>
@@ -38,16 +39,18 @@
 <script>
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
+        $('#loader').show();    // Show loading sign
         if ($('#code').val().length === 0) {
             window.alert('Enter a valid code!');
         } else {
             getLocation().then(function (data) {
                 postLocation(data);
+                $('#loader').hide();
             });
         }
     });
 
-    // Get user's location synchronously
+    // Get user's location synchronously.
     function getLocation() {
         return new Promise(function (resolve, reject) {
             var pos;
@@ -66,7 +69,10 @@
         });
     }
 
-    // Posts user's location co-ordinates to the server
+    /**
+     * Posts user's location co-ordinates to the server.
+     * @param {Dictionary} data   Location dict of user's longitude and latitude.
+     */
     function postLocation(data) {
         var pos = data;
         $.ajax({
@@ -88,4 +94,19 @@
         })
     }
 </script>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 90px;
+        height: 90px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 </html>

@@ -11,6 +11,7 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async defer></script>
 </head>
 <body>
+<!-- Navigation bar -->
 <nav class="navbar navbar-default navbar-static-top">
     <div>
         <ul class="nav navbar-nav">
@@ -33,7 +34,8 @@
         <button id="new_meeting_btn">Create New Meeting</button>
     </div>
     <div id="result">
-        <h4 id="meeting_message"></h4>
+        <h4 id="message1" hidden>Private code for your meeting</h4>
+        <h5 id="message2" hidden>Only share it with your friends to add their locations to your meeting</h5>
         <h4 id="meeting_code"></h4>
     </div>
 </div>
@@ -96,7 +98,14 @@
                     if (json['message'] === 'ValidationError'){
                         window.alert('Please try again!');
                     } else {
-                        $('#meeting_message').text('Private code for your meeting');
+                        // Remove entered data
+                        $('#city').val('');
+                        $('#place_type').val('');
+                        $('#meeting_name').val('');
+
+                        // Display result
+                        $('#message1').show();
+                        $('#message2').show();
                         $('#meeting_code').text(json['code']);
                     }
                 },
