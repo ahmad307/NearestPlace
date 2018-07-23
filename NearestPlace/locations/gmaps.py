@@ -2,23 +2,18 @@ from locations.models import Session,Location
 import googlemaps
 
 class LocationFinder:
-    def __init__(self,code):
+    def __init__(self,meeting):
+        """:param meeting: Session table object for which to get Nearest Place."""
         # Set gmaps api connection
         self.api = googlemaps.Client(key=open('D:/Projects/secretkey/gmaps_key.txt','r').read())
 
         # Get locations of users in the meeting
-        meeting = Session.objects.get(code=code)
         locations = Location.objects.filter(session=meeting)    # List of all locations related to meeting
         self.users_places = [{'lat':i.latitude,'lng':i.longitude} for i in locations]
-        print('Hi here!!', self.users_places)
 
         # Get meeting's info
         self.city = meeting.city    # City in which to search for places.
         self.place_type = meeting.place_type    # The kind of place sought.
-
-        # Temporary test locations
-        #self.user_places = [{'lat': 30.0185290, 'lng': 31.3261620}, {'lat': 30.099023, 'lng': 31.376186},
-                   #{'lat': 30.073690, 'lng': 31.285717}]
 
     def get_nearest_place(self):
         """Returns the nearest place to 'users_places' list."""

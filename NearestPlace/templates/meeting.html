@@ -57,13 +57,17 @@
         if ($('#code').val().length === 0) {
             window.alert('Enter valide code for your meeting!');
         } else {
+            // Post meeting code to server & receive Nearest Place
             $.ajax({
                 url:'/get_location/',
                 type:'POST',
                 data:{'csrfmiddlewaretoken':'{{ csrf_token }}', 'code':$('#code').val()},
 
                 success: function (json) {
-                    $('#result_place').text(json['place']);
+                    if (json['message'] == 'Incorrect Code')
+                        window.alert('Please enter an existing code!');
+                    else
+                        $('#result_place').text(json['place']);
                 },
                 error: function () {
                     console.log('Failed to get nearest place!');
@@ -94,7 +98,7 @@
 
     /**
      * Posts user's location co-ordinates to the server.
-     * @param {Dictionary} data   Location dict of user's longitude and latitude.
+     * @param {Dict} data   Location dict of user's longitude and latitude.
      */
     function postLocation(data) {
         var pos = data;

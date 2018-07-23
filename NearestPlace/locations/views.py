@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse
 from locations.gmaps import LocationFinder
-from django.core.exceptions import ValidationError
 from locations.models import Session,Location
+from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 import json
 import secrets
 import string
@@ -18,7 +19,13 @@ def get_location(request):
     """Receives POST request and returns the 'Nearest Place'."""
     if request.method == 'POST':
         code = request.POST.get('code')
-        location_finder = LocationFinder(code)
+        meeting = None
+        try:
+            meeting = Session.objects.get(code=code)
+        except ObjectDoesNotExist:
+            return HttpResponse(json.dumps({'message':'Incorrect Code'}), content_type='application/json')
+
+        location_finder = LocationFinder(meeting)
         result_place = location_finder.get_nearest_place()
 
         return HttpResponse(json.dumps({'place':result_place}), content_type='application/json')
