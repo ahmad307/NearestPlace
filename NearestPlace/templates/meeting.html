@@ -59,7 +59,7 @@
         } else {
             // Post meeting code to server & receive Nearest Place
             $.ajax({
-                url:'/get_location/',
+                url:'/locations/get_location/',
                 type:'POST',
                 data:{'csrfmiddlewaretoken':'{{ csrf_token }}', 'code':$('#code').val()},
 
@@ -103,7 +103,7 @@
     function postLocation(data) {
         var pos = data;
         $.ajax({
-            url:'/add_location/',
+            url:'/locations/add_location/',
             type:'POST',
             data:{
                 'csrfmiddlewaretoken':'{{ csrf_token }}',

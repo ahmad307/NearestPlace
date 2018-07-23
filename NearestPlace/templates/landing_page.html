@@ -55,28 +55,6 @@
         }
     });
 
-    // Send city and place info and receive the 'Nearest Place'
-    $('#input_form').on('submit', function (event) {
-        event.preventDefault();
-        $('#loader').show();    // Loading sign
-
-        $.ajax({
-            url:'/get_location/',
-            type:'POST',
-            data:$('#input_form').serialize(),
-
-            success: function (json) {
-                $('#loader').hide();
-                $('#result_place').text(json['place']);
-            },
-            error: function () {
-                console.log('Request Failed!');
-                $('#loader').hide();
-                window.alert('Please Enter Valid Info!');
-            }
-        });
-    });
-
     // Post session info to saved in DB
     $('#new_meeting_btn').on('click', function (e) {
         if ($('#meeting_name').val().length == 0 || $('#city').val().length == 0 || $('#place_type').val().length == 0){
@@ -84,7 +62,7 @@
         }
         else{
             $.ajax({
-                url:'/create_session/',
+                url:'/locations/create_session/',
                 type:'POST',
                 data:{
                     'csrfmiddlewaretoken':'{{ csrf_token }}',
