@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Nearest Place</title>
+    {% load staticfiles %}
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'home/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'home/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'home/css/grayscale.min.css' %}" rel="stylesheet">
+    <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Nearest Place</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#signup">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead">
+      <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+          <h1 class="mx-auto my-0 text-uppercase">Nearest Place</h1>
+          <h2 class="text-white-50 mx-auto mt-2 mb-5">Your perfect meeting spot secured.</h2>
+          <a href="#about" class="btn btn-primary js-scroll-trigger">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section bg-light">
+      <div class="container">
+
+        <!-- Featured Project Row -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7">
+            <img class="img-fluid mb-3 mb-lg-0" src="{% static 'home/img/img-01.jpg' %}" alt="">
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <h4>Nearest Spot for your Meetings</h4>
+              <p class="text-black-50 mb-0">Nearest Place finds you the meeting spot (e.g. Cafe, Co-working space) closest to all your team members. It's particularly useful when not all members live in the same neighbourhood.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add Meeting Section -->
+    <section id="signup" class="signup-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+            <h2 class="text-white mb-5">Create a Meeting!</h2>
+
+            <form id="meeting_data">
+                {% csrf_token %}
+                <div class="row form-inline" style="display: block">
+                    <input type="text" class="col-lg-8 form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="city" placeholder="Meeting City .." autocomplete="on">
+                    <input type="text" class="col-lg-8 form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="place_type" placeholder="Place Type (Cafe etc.) ..">
+                </div>
+                <div class="row form-inline center" style="display: block; padding-top: 20px">
+                    <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="meeting_name" placeholder="Meeting Name ..">
+                    <button type="button" id="new_meeting_btn" class="btn btn-primary mx-auto">Add Meeting</button>
+                </div>
+            </form>
+
+            <div id="dialog" title="Congrats!" style="padding-top: 20px">
+                <h3 id="code_title" class="text_center" style="color: white" hidden>Your Unique Meeting Code:  <br></h3>
+                <h4 id="meeting_code" class="text_center" style="color: white"><br></h4>
+                <h6 id="code_msg" class="text-center" style="color: white" hidden>Share with friends to join the meeting</h6>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add Location section -->
+    <section id="signup" class="signup-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+            <h2 class="text-white mb-5">Add yourself to a Meeting!</h2>
+
+            <form id="form_location" class="form-inline d-flex">
+                {% csrf_token %}
+              <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="code" placeholder="Meeting Code ...">
+              <button type="button" id="add_location_btn" class="btn btn-primary mx-auto">Add My Location</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section bg-black">
+      <div class="container">
+        <div class="social d-flex justify-content-center">
+          <a href="#" class="mx-2">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="mx-2">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="mx-2">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black small text-center text-white-50">
+      <div class="container">
+        Copyright &copy; Nearest Place 2018
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'home/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'home/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'home/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'home/js/grayscale.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'home/js/main.js' %}"></script>
+
+    <!-- Google Maps API -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async defer></script>
+  </body>
+
+</html>

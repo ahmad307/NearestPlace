@@ -8,6 +8,10 @@ import secrets
 import string
 from decimal import *
 
+def home(request):
+    api_key = open('D:/Projects/secretkey/gmaps_key.txt', 'r').read()
+    return render(request,'home/index.html',{'api_key':api_key})
+
 def index(request):
     api_key = open('D:/Projects/secretkey/gmaps_key.txt','r').read()
     return render(request,'landing_page.html',{'api_key':api_key})
