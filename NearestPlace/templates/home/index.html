@@ -21,10 +21,6 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'home/css/grayscale.min.css' %}" rel="stylesheet">
-    <script
-			  src="https://code.jquery.com/jquery-3.3.1.min.js"
-			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script>
 
   </head>
 
@@ -41,13 +37,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+              <a class="nav-link js-scroll-trigger" href="#about">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#projects">Projects</a>
+              <a class="nav-link js-scroll-trigger" href="#projects">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#signup">Contact</a>
+              <a class="nav-link js-scroll-trigger" href="#signup">Try It Out</a>
             </li>
           </ul>
         </div>
@@ -128,9 +124,10 @@
               <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="code" placeholder="Meeting Code ...">
               <button type="button" id="add_location_btn" class="btn btn-primary mx-auto">Add My Location</button>
             </form>
-
           </div>
         </div>
+        <br>
+        <div id="loader" class="loader" style="margin: auto" hidden></div>
       </div>
     </section>
 
@@ -170,7 +167,23 @@
     <script type="text/javascript" src="{% static 'home/js/main.js' %}"></script>
 
     <!-- Google Maps API -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async defer></script>
+
   </body>
 
+  <style>
+      .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+  </style>
 </html>

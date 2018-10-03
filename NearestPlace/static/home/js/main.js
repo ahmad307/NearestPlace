@@ -1,19 +1,19 @@
-$(document).ready(function () {
-    // Enable google autocomplete with location selection
-    var onLoaded = function() {
-        var location_input = document.getElementById('city');
-        var autocomplete = new google.maps.places.Autocomplete(location_input);
-    };
+// Enable google autocomplete with location selection
+var onLoaded = function() {
+    var location_input = document.getElementById('city');
+    var autocomplete = new google.maps.places.Autocomplete(location_input);
+};
 
+$(document).ready(function () {
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
-        //$('#loader').toggle();    // Show loading sign
+        $('#loader').attr('hidden', false);    // Show loading sign
         if ($('#code').val().length === 0) {
             window.alert('Enter a valid code!');
         } else {
             getLocation().then(function (data) {
                 postLocation(data);
-                //$('#loader').toggle();  // Hide loading sign
+                $('#loader').attr('hidden', true);  // Hide loading sign
             });
         }
     });
@@ -55,7 +55,11 @@ $(document).ready(function () {
 
             success: function (json) {
                 $('#code').val('');
-                window.alert('Location Saved!');
+                if (json['message'] === 'Incorrect Code'){
+                    window.alert('This code does not exist!');
+                } else {
+                    window.alert('Location Saved!');
+                }
             },
             error: function (e) {
                 console.log('Sending Location Failed!');
