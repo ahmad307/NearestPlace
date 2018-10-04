@@ -21,12 +21,17 @@ def get_location(request):
         try:
             meeting = Session.objects.get(code=code)
         except ObjectDoesNotExist:
-            return HttpResponse(json.dumps({'message': 'Incorrect Code'}), content_type='application/json')
+            return HttpResponse(json.dumps({'message': 'Incorrect Code'}),
+                                content_type='application/json')
 
         location_finder = LocationFinder(meeting)
         result_place = location_finder.get_nearest_place()
 
-        return HttpResponse(json.dumps({'place':result_place}), content_type='application/json')
+        return HttpResponse(json.dumps({
+            'name': result_place['name'],
+            'address': result_place['formatted_address'],
+            'rating': result_place['rating']
+        }), content_type='application/json')
 
 def create_session(request):
     """Creates a session for saving locations in the database."""

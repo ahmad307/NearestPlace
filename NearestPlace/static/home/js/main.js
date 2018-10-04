@@ -7,13 +7,13 @@ var onLoaded = function() {
 $(document).ready(function () {
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
-        $('#loader').attr('hidden', false);    // Show loading sign
+        $('#addlocation_loader').attr('hidden', false);    // Show loading sign
         if ($('#code').val().length === 0) {
             window.alert('Enter a valid code!');
         } else {
             getLocation().then(function (data) {
                 postLocation(data);
-                $('#loader').attr('hidden', true);  // Hide loading sign
+                $('#addlocation_loader').attr('hidden', true);  // Hide loading sign
             });
         }
     });
@@ -67,7 +67,7 @@ $(document).ready(function () {
         })
     }
 
-    // Prevent form submission when enter is pressed with location selection
+    // Prevent form submission when 'Enter' is pressed with location selection
     $('#city').keydown(function (event) {
         if (event){
             if (event.which === 13 && $('.pac-container:visible').length)
@@ -113,4 +113,33 @@ $(document).ready(function () {
             });
         }
     });
+
+    // Return Nearest Place given meeting code
+    $('#getlocation_btn').on('click', function () {
+        var x = document.getElementById('getlocation_loader');
+        x.setAttribute('hidden', false);
+        if ($('#getlocation_code').val().length === 0){
+            window.alert('Please enter a valid code!');
+        } else {
+            $.ajax({
+                url: '/locations/get_location/',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                    'code': $('#getlocation_code').val()
+                },
+
+                success: function (json) {
+                    console.log('Success!');
+                    $('#place_name').text(json['name']);
+                    $('#place_address').text(json['address']);
+                    $('#place_rating').text(json['rating']);
+                },
+                error: function (error) {
+                    console.log('Sending Location Failed!');
+                }
+            });
+        }
+        //$('#getlocation_loader').toggle('hide');
+    })
 });

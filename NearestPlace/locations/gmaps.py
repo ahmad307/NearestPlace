@@ -23,7 +23,7 @@ class LocationFinder:
         factors = self.get_places_factors(result_places)
         factors.sort(key=lambda tup: tup[0])
 
-        return factors[0][1]['name']
+        return factors[0][1]
 
     def get_location(self,address):
         """Returns location dict with lat and lng

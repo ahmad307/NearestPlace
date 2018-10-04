@@ -120,14 +120,39 @@
             <h2 class="text-white mb-5">Add yourself to a Meeting!</h2>
 
             <form id="form_location" class="form-inline d-flex">
-                {% csrf_token %}
+              {% csrf_token %}
               <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="code" placeholder="Meeting Code ...">
               <button type="button" id="add_location_btn" class="btn btn-primary mx-auto">Add My Location</button>
             </form>
           </div>
         </div>
         <br>
-        <div id="loader" class="loader" style="margin: auto" hidden></div>
+        <div id="addlocation_loader" class="loader" style="margin: auto" hidden></div>
+      </div>
+    </section>
+
+    <!-- Get Place Section -->
+    <section id="get_place" class="signup-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+            <h2 class="text-white mb-5">Nearest PLace</h2>
+
+            <form id="form_getlocation" class="form-inline d-flex">
+              {% csrf_token %}
+              <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="getlocation_code" placeholder="Meeting Code ...">
+              <button type="button" id="getlocation_btn" class="btn btn-primary mx-auto">Get Meeting Place</button>
+            </form>
+            <div id="getlocation_loader" class="loader" style="margin: auto" hidden></div>
+            <br>
+            <div style="margin: auto">
+                <h2 id="place_name" class="text-center" style="color: white"></h2>
+                <h2 id="place_rating" class="text-center" style="color: white"></h2>
+                <h4 id="place_address" class="text-center" style="color: white"></h4>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -174,7 +199,7 @@
   <style>
       .loader {
             border: 16px solid #f3f3f3; /* Light grey */
-            border-top: 16px solid #3498db; /* Blue */
+            border-top: 16px solid darkgray; /* Gray */
             border-radius: 50%;
             width: 90px;
             height: 90px;
