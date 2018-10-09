@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from locations.gmaps import LocationFinder
-from locations.models import Session,Location
+from locations.models import Session, Location
 from django.core.exceptions import ValidationError
 from django.core.exceptions import ObjectDoesNotExist
 import json
@@ -33,6 +33,7 @@ def get_location(request):
             'rating': result_place['rating']
         }), content_type='application/json')
 
+
 def create_session(request):
     """Creates a session for saving locations in the database."""
     if request.method == 'POST':
@@ -54,6 +55,7 @@ def create_session(request):
             return HttpResponse(json.dumps({'message':'ValidationError'}), content_type='application/json')
 
         return HttpResponse(json.dumps({'message':'success','code':code}), content_type='application/json')
+
 
 def add_location(request):
     """Adds a new location to the given meeting and saves it in DB."""
