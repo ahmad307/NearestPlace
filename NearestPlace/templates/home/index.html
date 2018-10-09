@@ -37,13 +37,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">Home</a>
+              <a class="nav-link js-scroll-trigger" href="#header">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#projects">About</a>
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#signup">Try It Out</a>
+              <a class="nav-link js-scroll-trigger" href="#add_meeting">Create a Meeting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#add_location">Join a Meeting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#get_place">Meeting Place</a>
             </li>
           </ul>
         </div>
@@ -51,7 +57,7 @@
     </nav>
 
     <!-- Header -->
-    <header class="masthead">
+    <header id="header" class="masthead">
       <div class="container d-flex h-100 align-items-center">
         <div class="mx-auto text-center">
           <h1 class="mx-auto my-0 text-uppercase">Nearest Place</h1>
@@ -61,8 +67,8 @@
       </div>
     </header>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects-section bg-light">
+    <!-- About Section -->
+    <section id="about" class="projects-section bg-light">
       <div class="container">
 
         <!-- Featured Project Row -->
@@ -81,7 +87,7 @@
     </section>
 
     <!-- Add Meeting Section -->
-    <section id="signup" class="signup-section">
+    <section id="add_meeting" class="add-meeting-section">
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-lg-8 mx-auto text-center">
@@ -112,7 +118,7 @@
     </section>
 
     <!-- Add Location section -->
-    <section id="signup" class="signup-section">
+    <section id="add_location" class="add-location-section">
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-lg-8 mx-auto text-center">
@@ -132,7 +138,7 @@
     </section>
 
     <!-- Get Place Section -->
-    <section id="get_place" class="signup-section">
+    <section id="get_place" class="get-place-section">
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-lg-8 mx-auto text-center">
@@ -144,8 +150,8 @@
               <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="getlocation_code" placeholder="Meeting Code ...">
               <button type="button" id="getlocation_btn" class="btn btn-primary mx-auto">Get Meeting Place</button>
             </form>
-            <div id="getlocation_loader" class="loader" style="margin: auto" hidden></div>
             <br>
+            <div id="getlocation_loader" class="loader" style="margin: auto" hidden></div>
             <div style="margin: auto">
                 <h2 id="place_name" class="text-center" style="color: white"></h2>
                 <h2 id="place_rating" class="text-center" style="color: white"></h2>

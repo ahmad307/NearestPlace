@@ -10,7 +10,6 @@ class LocationFinder:
         # Get locations of users in the meeting
         locations = Location.objects.filter(session=meeting)    # List of all locations related to meeting
         self.users_places = [{'lat': i.latitude, 'lng': i.longitude} for i in locations]
-        print(self.users_places)
 
         # Get meeting's info
         self.city = meeting.city    # City in which to search for places.

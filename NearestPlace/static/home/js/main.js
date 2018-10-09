@@ -116,8 +116,7 @@ $(document).ready(function () {
 
     // Return Nearest Place given meeting code
     $('#getlocation_btn').on('click', function () {
-        var x = document.getElementById('getlocation_loader');
-        x.setAttribute('hidden', false);
+        $('#getlocation_loader').attr('hidden', false);
         if ($('#getlocation_code').val().length === 0){
             window.alert('Please enter a valid code!');
         } else {
@@ -134,12 +133,13 @@ $(document).ready(function () {
                     $('#place_name').text(json['name']);
                     $('#place_address').text(json['address']);
                     $('#place_rating').text(json['rating']);
+                    $('#getlocation_loader').attr('hidden', true);
                 },
                 error: function (error) {
+                    $('#getlocation_loader').attr('hidden', true);
                     console.log('Sending Location Failed!');
                 }
             });
         }
-        //$('#getlocation_loader').toggle('hide');
     })
 });
