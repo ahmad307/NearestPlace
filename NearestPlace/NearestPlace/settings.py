@@ -65,8 +65,12 @@ WSGI_APPLICATION = 'NearestPlace.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nearestplace',
+        'USER': 'postgres',
+        'PASSWORD': open('D:/Projects/secretkey/nearestplace_db.txt', 'r').read(),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
