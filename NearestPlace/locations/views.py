@@ -3,14 +3,16 @@ from locations.gmaps import LocationFinder
 from locations.models import Session, Location
 from django.core.exceptions import ValidationError
 from django.core.exceptions import ObjectDoesNotExist
+from decimal import *
+import os
 import json
 import secrets
 import string
-from decimal import *
+
 
 def home(request):
-    api_key = open('D:/Projects/secretkey/gmaps_key.txt', 'r').read()
-    return render(request,'home/index.html', {'api_key': api_key})
+    api_key = os.environ['api_key']
+    return render(request, 'home/index.html', {'api_key': api_key})
 
 
 def get_location(request):

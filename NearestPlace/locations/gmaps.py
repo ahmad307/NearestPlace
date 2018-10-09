@@ -1,11 +1,12 @@
 from locations.models import Session,Location
 import googlemaps
+import os
 
 class LocationFinder:
     def __init__(self, meeting):
         """:param meeting: Session table object for which to get Nearest Place."""
         # Set gmaps api connection
-        self.api = googlemaps.Client(key=open('D:/Projects/secretkey/gmaps_key.txt','r').read())
+        self.api = googlemaps.Client(key=os.environ['api_key'])
 
         # Get locations of users in the meeting
         locations = Location.objects.filter(session=meeting)    # List of all locations related to meeting

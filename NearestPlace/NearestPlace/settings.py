@@ -8,7 +8,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = open('D:/Projects/secretkey/nearestplace_secretkey.txt','r').read()
+SECRET_KEY = os.environ['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,7 +68,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'nearestplace',
         'USER': 'postgres',
-        'PASSWORD': open('D:/Projects/secretkey/nearestplace_db.txt', 'r').read(),
+        'PASSWORD': os.environ['db_key'],
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
