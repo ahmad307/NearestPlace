@@ -10,7 +10,7 @@ from decimal import *
 
 def home(request):
     api_key = open('D:/Projects/secretkey/gmaps_key.txt', 'r').read()
-    return render(request,'home/index.html',{'api_key':api_key})
+    return render(request,'home/index.html', {'api_key': api_key})
 
 
 def get_location(request):
@@ -41,10 +41,10 @@ def create_session(request):
         code = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 
         session = Session(
-            name = request.POST.get('meeting_name'),
-            code = code,
-            place_type = request.POST.get('place_type'),
-            city = request.POST.get('city')
+            name=request.POST.get('meeting_name'),
+            code=code,
+            place_type=request.POST.get('place_type'),
+            city=request.POST.get('city')
         )
 
         # Validate data before saving to Database
@@ -52,9 +52,9 @@ def create_session(request):
             session.full_clean()
             session.save()
         except ValidationError:
-            return HttpResponse(json.dumps({'message':'ValidationError'}), content_type='application/json')
+            return HttpResponse(json.dumps({'message': 'ValidationError'}), content_type='application/json')
 
-        return HttpResponse(json.dumps({'message':'success','code':code}), content_type='application/json')
+        return HttpResponse(json.dumps({'message': 'success','code':code}), content_type='application/json')
 
 
 def add_location(request):
@@ -62,8 +62,8 @@ def add_location(request):
     if request.POST:
         # Get request data
         code = request.POST.get('code')
-        lat = round(Decimal(request.POST.get('lat')),6)
-        lng = round(Decimal(request.POST.get('lng')),6)
+        lat = round(Decimal(request.POST.get('lat')), 6)
+        lng = round(Decimal(request.POST.get('lng')), 6)
 
         # Create object of location with the given session's code
         try:

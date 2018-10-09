@@ -15,7 +15,6 @@ class LocationFinder:
         self.city = meeting.city    # City in which to search for places.
         self.place_type = meeting.place_type    # The kind of place sought.
 
-
     def get_nearest_place(self):
         """Returns the nearest place to 'users_places' list."""
         place_location = self.get_location(self.city)
@@ -26,7 +25,7 @@ class LocationFinder:
 
         return factors[0][1]
 
-    def get_location(self,address):
+    def get_location(self, address):
         """Returns location dict with lat and lng
         :param address: string with city/area name
         """

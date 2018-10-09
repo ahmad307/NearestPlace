@@ -18,7 +18,7 @@ $(document).ready(function () {
         }
     });
 
-    // Get user's location synchronously.
+    // Get user's location synchronously using Promise.
     function getLocation() {
         return new Promise(function (resolve, reject) {
             var pos;
@@ -39,10 +39,10 @@ $(document).ready(function () {
 
     /**
      * Posts user's location co-ordinates to the server.
-     * @param {Dict} data   Location dict of user's longitude and latitude.
+     * @param {JSON} pos  Location dictionary of user's longitude and latitude.
      */
-    function postLocation(data) {
-        var pos = data;
+    function postLocation(pos) {
+        // Send user location to server
         $.ajax({
             url:'/locations/add_location/',
             type:'POST',
@@ -75,12 +75,14 @@ $(document).ready(function () {
         }
     });
 
-    // Post session info to be saved in DB
+    // Post meeting info to be saved in DB
     $('#new_meeting_btn').on('click', function (e) {
+        $('#addmeeting_loader').attr('hidden', false);  // Show loading sign
         if ($('#meeting_name').val().length == 0 || $('#city').val().length == 0 || $('#place_type').val().length == 0){
             window.alert('Enter valid info for your meeting!');
         }
         else{
+            // Send meeting data to create meeting session in DB
             $.ajax({
                 url:'/locations/create_session/',
                 type:'POST',
@@ -92,6 +94,7 @@ $(document).ready(function () {
                 },
 
                 success: function (json) {
+                    $('#addmeeting_loader').attr('hidden', true);   // Hide loading sign
                     // Prompt the user if the session wasn't created in the DB
                     if (json['message'] === 'ValidationError'){
                         window.alert('Please try again!');
@@ -108,6 +111,7 @@ $(document).ready(function () {
                     }
                 },
                 error: function () {
+                    $('#addmeeting_loader').attr('hidden', true);  // Hide loading sign
                     console.log('Session Creation Failed');
                 }
             });
@@ -116,10 +120,11 @@ $(document).ready(function () {
 
     // Return Nearest Place given meeting code
     $('#getlocation_btn').on('click', function () {
-        $('#getlocation_loader').attr('hidden', false);
+        $('#getlocation_loader').attr('hidden', false);  // Show loading sign
         if ($('#getlocation_code').val().length === 0){
             window.alert('Please enter a valid code!');
         } else {
+            // Get meeting location from server
             $.ajax({
                 url: '/locations/get_location/',
                 type: 'POST',
@@ -129,14 +134,14 @@ $(document).ready(function () {
                 },
 
                 success: function (json) {
-                    console.log('Success!');
+                    // Display place data
                     $('#place_name').text(json['name']);
                     $('#place_address').text(json['address']);
                     $('#place_rating').text(json['rating']);
-                    $('#getlocation_loader').attr('hidden', true);
+                    $('#getlocation_loader').attr('hidden', true);  // Hide loading sign
                 },
                 error: function (error) {
-                    $('#getlocation_loader').attr('hidden', true);
+                    $('#getlocation_loader').attr('hidden', true);  // Hide loading sign
                     console.log('Sending Location Failed!');
                 }
             });
