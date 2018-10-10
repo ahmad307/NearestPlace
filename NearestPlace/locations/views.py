@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from decimal import *
 import os
 import json
-import secrets
+import random
 import string
 
 
@@ -40,7 +40,7 @@ def create_session(request):
     """Creates a session for saving locations in the database."""
     if request.method == 'POST':
         # Create pseudo-unique random string of numbers and capital letters
-        code = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+        code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
         session = Session(
             name=request.POST.get('meeting_name'),

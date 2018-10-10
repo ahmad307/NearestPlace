@@ -10,10 +10,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    'tweets-analytica.herokuapp.com',
+    'nearest-place.herokuapp.com',
 ]
 
 
@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,10 +68,10 @@ WSGI_APPLICATION = 'NearestPlace.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nearestplace',
-        'USER': 'postgres',
+        'NAME': 'd8sgrsp2dsiood',
+        'USER': 'yybrpebzjxohty',
         'PASSWORD': os.environ['db_key'],
-        'HOST': '127.0.0.1',
+        'HOST': 'ec2-54-225-110-152.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -115,5 +116,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    STATIC_ROOT,
+    os.path.join(BASE_DIR, 'static_deploy'),
 ]
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)

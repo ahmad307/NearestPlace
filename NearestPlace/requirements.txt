@@ -1,0 +1,6 @@
+dj_database_url==0.5.0
+googlemaps==2.5.1
+Django==1.11.6
+psycopg2-binary==2.7.5
+gunicorn==19.0.0
+whitenoise==3.3.1
