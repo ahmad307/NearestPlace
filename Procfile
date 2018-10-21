@@ -1,1 +1,1 @@
-web: gunicorn NearestPlace.wsgi
+web: gunicorn NearestPlace/NearestPlace.wsgi
