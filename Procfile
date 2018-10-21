@@ -1,1 +1,1 @@
-web: gunicorn NearestPlace:application
+web: gunicorn NearestPlace/NearestPlace:application
