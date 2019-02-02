@@ -88,7 +88,11 @@
                 {% csrf_token %}
                 <div class="row form-inline" style="display: block">
                     <input type="text" class="col-lg-8 form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="city" placeholder="Meeting City .." autocomplete="on">
-                    <input type="text" class="col-lg-8 form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="place_type" placeholder="Place Type (Cafe etc.) ..">
+                    <select id="place_type" class="col-lg-8 form-control flex-fill" style="height: 60px;font-size: 80%">
+                        <option value="Cafe" style="font-family: 'Varela Round'">CAFE</option>
+                        <option value="Co-working Space" style="font-family: 'Varela Round'">CO-WORKING SPACE</option>
+                        <option value="Restaurant" style="font-family: 'Varela Round'">RESTAURANT</option>
+                    </select>
                 </div>
                 <div class="row form-inline center" style="display: block; padding-top: 20px">
                     <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="meeting_name" placeholder="Meeting Name ..">
