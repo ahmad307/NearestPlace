@@ -5,15 +5,25 @@ var onLoaded = function() {
 };
 
 $(document).ready(function () {
+    function showLoader(pos) {
+        return new Promise(function (resolve, reject) {
+            if ($('#addlocation_loader').attr('hidden', false))
+                resolve(pos);
+        });
+    }
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
-        $('#addlocation_loader').attr('hidden', false);    // Show loading sign
         if ($('#code').val().length === 0) {
             window.alert('Enter a valid code!');
         } else {
-            getLocation().then(function (data) {
-                postLocation(data);
-                $('#addlocation_loader').attr('hidden', true);  // Hide loading sign
+            const $loader = $('#addlocation_loader');
+            getLocation().then(function (pos) {
+                $loader.attr('hidden', false);  // Show loading sign
+                return pos;
+            }).then(function (pos) {
+                return postLocation(pos);
+            }).then(function () {
+               $loader.attr('hidden', true);  // Hide loading sign
             });
         }
     });
