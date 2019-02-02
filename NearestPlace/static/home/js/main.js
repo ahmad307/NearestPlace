@@ -14,7 +14,7 @@ $(document).ready(function () {
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
         if ($('#code').val().length === 0) {
-            window.alert('Enter a valid code!');
+            window.alert('Please enter a valid code!');
         } else {
             const $loader = $('#addlocation_loader');
             getLocation().then(function (pos) {
@@ -87,11 +87,12 @@ $(document).ready(function () {
 
     // Post meeting info to be saved in DB
     $('#new_meeting_btn').on('click', function (e) {
-        $('#addmeeting_loader').attr('hidden', false);  // Show loading sign
-        if ($('#meeting_name').val().length == 0 || $('#city').val().length == 0 || $('#place_type').val().length == 0){
+        if ($('#meeting_name').val().length == 0 || $('#city').val().length == 0
+            || $('#place_type').val().length == 0){
             window.alert('Enter valid info for your meeting!');
         }
         else{
+            $('#addmeeting_loader').attr('hidden', false);  // Show loading sign
             // Send meeting data to create meeting session in DB
             $.ajax({
                 url:'/locations/create_session/',
