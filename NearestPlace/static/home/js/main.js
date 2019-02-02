@@ -5,12 +5,6 @@ var onLoaded = function() {
 };
 
 $(document).ready(function () {
-    function showLoader(pos) {
-        return new Promise(function (resolve, reject) {
-            if ($('#addlocation_loader').attr('hidden', false))
-                resolve(pos);
-        });
-    }
     // Get user's location (longitude and magnitude) and post it to server
     $('#add_location_btn').on('click', function () {
         if ($('#code').val().length === 0) {
