@@ -11,8 +11,12 @@ $(document).ready(function () {
             window.alert('Please enter a valid code!');
         } else {
             const $loader = $('#addlocation_loader');
+            const $msg = $('#access_msg');
+            $msg.text('Kindly make sure to give Nearest Place access to your location.');
+
             getLocation().then(function (pos) {
                 $loader.attr('hidden', false);  // Show loading sign
+                $msg.text('✓');
                 return pos;
             }).then(function (pos) {
                 return postLocation(pos);
