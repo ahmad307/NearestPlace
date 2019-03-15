@@ -52,9 +52,11 @@ def create_session(request):
             session.full_clean()
             session.save()
         except ValidationError:
-            return HttpResponse(json.dumps({'message': 'ValidationError'}), content_type='application/json')
+            return HttpResponse(json.dumps({'message': 'ValidationError'}),
+                                content_type='application/json')
 
-        return HttpResponse(json.dumps({'message': 'success','code':code}), content_type='application/json')
+        return HttpResponse(json.dumps({'message': 'success','code':code}),
+                            content_type='application/json')
 
 
 def add_location(request):
@@ -69,7 +71,8 @@ def add_location(request):
         try:
             session = Session.objects.get(code=code)
         except ObjectDoesNotExist:
-            return HttpResponse(json.dumps({'message': 'Incorrect Code'}), content_type='application/json')
+            return HttpResponse(json.dumps({'message': 'Incorrect Code'}),
+                                content_type='application/json')
 
         location = Location(
             longitude=lng,
@@ -84,4 +87,5 @@ def add_location(request):
         except ValidationError as e:
             result = {'message': 'Validation Error'}
         finally:
-            return HttpResponse(json.dumps(result), content_type='application/json')
+            return HttpResponse(json.dumps(result),
+                                content_type='application/json')

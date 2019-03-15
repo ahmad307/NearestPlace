@@ -86,7 +86,7 @@ $(document).ready(function () {
     // Post meeting info to be saved in DB
     $('#new_meeting_btn').on('click', function (e) {
         if ($('#meeting_name').val().length == 0 || $('#city').val().length == 0
-            || $('#place_type').val().length == 0){
+            || $('#place_type').val() == null){
             window.alert('Enter valid info for your meeting!');
         }
         else{
