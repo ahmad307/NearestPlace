@@ -8,12 +8,14 @@ import secrets
 import string
 from decimal import *
 
+
 def home(request):
     api_key = open('D:/Projects/secretkey/gmaps_key.txt', 'r').read()
     return render(request,'home/index.html', {'api_key': api_key})
 
 
 def get_location(request):
+    # TODO: Return 'Nothing found' if there is no returned data
     """Receives POST request and returns the 'Nearest Place'."""
     if request.method == 'POST':
         code = request.POST.get('code')
@@ -55,7 +57,7 @@ def create_session(request):
             return HttpResponse(json.dumps({'message': 'ValidationError'}),
                                 content_type='application/json')
 
-        return HttpResponse(json.dumps({'message': 'success','code':code}),
+        return HttpResponse(json.dumps({'message': 'success','code': code}),
                             content_type='application/json')
 
 
